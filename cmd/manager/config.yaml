@@ -1,0 +1,24 @@
+server:
+  addr: 0.0.0.0
+  port: 9302
+  limit: 50
+  burst: 100
+  requestTimeout: 60s
+mongo:
+  addr: "mongodb://root:root@172.17.0.1:27017/test"
+  database: "Sina2"
+scraper:
+  runtimePath: "/browser/chromedriver-win64.zip"
+  sina:
+    userName:
+     - "example@163.com"
+     - "example@qq.com"
+    password:
+     - "12333444"
+     - "1742566624"
+    info: true
+    follow: false
+    fans: false
+    tweet:
+      main: true
+      comment: false
