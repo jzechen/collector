@@ -6,7 +6,7 @@ server:
   requestTimeout: 60s
 mongo:
   addr: "mongodb://root:root@172.17.0.1:27017"
-  database: "Sina"
+  database: "test"
   dialTimeout: "3s"
 scraper:
   runtimePath: "/browser/chromedriver-win64.zip"
