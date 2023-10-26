@@ -9,8 +9,8 @@ package gin
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/jzechen/collector/pkg/manager/dto"
-	"github.com/jzechen/collector/pkg/manager/server/engine/gin/response"
+	"github.com/jzechen/toresa/pkg/manager/dto"
+	"github.com/jzechen/toresa/pkg/manager/server/engine/gin/response"
 	"k8s.io/klog/v2"
 	"net/http"
 )

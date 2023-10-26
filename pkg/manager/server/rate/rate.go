@@ -8,7 +8,7 @@
 package rate
 
 import (
-	"github.com/jzechen/collector/pkg/manager/config"
+	"github.com/jzechen/toresa/pkg/manager/config"
 	"golang.org/x/time/rate"
 )
 

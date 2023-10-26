@@ -8,7 +8,7 @@
 package main
 
 import (
-	"github.com/jzechen/collector/cmd/manager/cmd"
+	"github.com/jzechen/toresa/cmd/manager/cmd"
 	"k8s.io/apimachinery/pkg/util/rand"
 	"k8s.io/component-base/logs"
 	"os"

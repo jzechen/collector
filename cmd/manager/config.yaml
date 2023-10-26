@@ -5,8 +5,9 @@ server:
   burst: 100
   requestTimeout: 60s
 mongo:
-  addr: "mongodb://root:root@172.17.0.1:27017/test"
-  database: "Sina2"
+  addr: "mongodb://root:root@172.17.0.1:27017"
+  database: "Sina"
+  dialTimeout: "3s"
 scraper:
   runtimePath: "/browser/chromedriver-win64.zip"
   sina:

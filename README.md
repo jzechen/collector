@@ -1,2 +1,2 @@
-# collector
-Collector is a full-stack project. It scrapts contents in the web.
+# Toresa
+Toresa is a full-stack project. It pulls contents in the web.

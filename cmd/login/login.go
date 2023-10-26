@@ -1,9 +1,6 @@
 package main
 
 import (
-	"WeiboSpiderGo/pkg/config"
-	"WeiboSpiderGo/pkg/mdb"
-	"WeiboSpiderGo/pkg/utils"
 	"bufio"
 	"fmt"
 	"github.com/tebeka/selenium"

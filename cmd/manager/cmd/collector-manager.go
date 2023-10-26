@@ -10,11 +10,11 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"github.com/jzechen/collector/cmd/manager/cmd/options"
-	"github.com/jzechen/collector/pkg/common/apiserver"
-	logFlag "github.com/jzechen/collector/pkg/common/flag"
-	"github.com/jzechen/collector/pkg/manager/config"
-	"github.com/jzechen/collector/pkg/manager/server"
+	"github.com/jzechen/toresa/cmd/manager/cmd/options"
+	"github.com/jzechen/toresa/pkg/common/apiserver"
+	logFlag "github.com/jzechen/toresa/pkg/common/flag"
+	"github.com/jzechen/toresa/pkg/manager/config"
+	"github.com/jzechen/toresa/pkg/manager/server"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"k8s.io/klog/v2"
@@ -26,7 +26,7 @@ const (
 	helpTextLong    = `The Collector-manager is a module that manages the collect job in the collector project.
 
       Find more information at:
-            https://github.com/jzechen/collector`
+            https://github.com/jzechen/toresa`
 )
 
 func NewCollectorManager() *cobra.Command {

@@ -9,9 +9,9 @@ package gin
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/jzechen/collector/pkg/manager/server/engine"
-	"github.com/jzechen/collector/pkg/manager/server/engine/gin/middleware"
-	"github.com/jzechen/collector/pkg/manager/services"
+	"github.com/jzechen/toresa/pkg/manager/server/engine"
+	"github.com/jzechen/toresa/pkg/manager/server/engine/gin/middleware"
+	"github.com/jzechen/toresa/pkg/manager/services"
 	"io"
 	"k8s.io/klog/v2"
 )

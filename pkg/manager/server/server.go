@@ -9,12 +9,13 @@ package server
 
 import (
 	"context"
-	"github.com/jzechen/collector/pkg/common/apiserver"
-	"github.com/jzechen/collector/pkg/manager/config"
-	"github.com/jzechen/collector/pkg/manager/server/engine"
-	"github.com/jzechen/collector/pkg/manager/server/engine/gin"
-	"github.com/jzechen/collector/pkg/manager/server/rate"
-	"github.com/jzechen/collector/pkg/manager/services/sina"
+	"github.com/jzechen/toresa/pkg/common/apiserver"
+	"github.com/jzechen/toresa/pkg/manager/config"
+	"github.com/jzechen/toresa/pkg/manager/mdb"
+	"github.com/jzechen/toresa/pkg/manager/server/engine"
+	"github.com/jzechen/toresa/pkg/manager/server/engine/gin"
+	"github.com/jzechen/toresa/pkg/manager/server/rate"
+	"github.com/jzechen/toresa/pkg/manager/services/sina"
 	"k8s.io/klog/v2"
 	"net"
 	"net/http"
@@ -28,6 +29,7 @@ type ManagerServer struct {
 	server   *http.Server
 	listener net.Listener
 	engine   engine.Interface
+	mgo      mdb.Interface
 }
 
 func NewCollectorManagerServer(ctx context.Context, cfg *config.CollectorManager) (*ManagerServer, error) {
@@ -41,7 +43,11 @@ func NewCollectorManagerServer(ctx context.Context, cfg *config.CollectorManager
 		return nil, err
 	}
 
-	// TODO: init mongoDB client
+	klog.V(4).Info("initialize the mongoDB client")
+	mgo, err := mdb.NewMongoDBImpl(ctx, &cfg.Mongo)
+	if err != nil {
+		return nil, err
+	}
 
 	klog.V(4).Info("register the sina handler")
 	sinaHandler := sina.NewSinaHandler(ctx)
@@ -71,6 +77,7 @@ func NewCollectorManagerServer(ctx context.Context, cfg *config.CollectorManager
 		server:   srv,
 		listener: ln,
 		engine:   ginEngine,
+		mgo:      mgo,
 	}, nil
 }
 
@@ -87,7 +94,8 @@ func (rms *ManagerServer) Run() {
 }
 
 func (rms *ManagerServer) close() {
-	// TODO: do some close operation before receives exit signals
+	// do some close operation before receives exit signals
+	_ = rms.mgo.Close()
 }
 
 func CreateTablesIfNotExist() error {

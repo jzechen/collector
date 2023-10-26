@@ -8,9 +8,9 @@
 package config
 
 import (
-	"github.com/jzechen/collector/cmd/manager/cmd/options"
-	"github.com/jzechen/collector/pkg/manager/config/scrape"
-	. "github.com/jzechen/collector/pkg/manager/contants"
+	"github.com/jzechen/toresa/cmd/manager/cmd/options"
+	"github.com/jzechen/toresa/pkg/manager/config/scrape"
+	. "github.com/jzechen/toresa/pkg/manager/contants"
 	"github.com/spf13/viper"
 	"k8s.io/klog/v2"
 	"os"
@@ -33,8 +33,9 @@ type ServerConfig struct {
 }
 
 type MongoConfig struct {
-	Addr     string `yaml:"addr"`
-	Database string `yaml:"database"`
+	Addr        string        `yaml:"addr"`
+	Database    string        `yaml:"database"`
+	DialTimeout time.Duration `yaml:"dialTimeout"`
 }
 
 type ScrapeConfig struct {

@@ -8,7 +8,7 @@
 package services
 
 import (
-	"github.com/jzechen/collector/pkg/manager/services/sina"
+	"github.com/jzechen/toresa/pkg/manager/services/sina"
 )
 
 type Interface interface {

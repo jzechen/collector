@@ -10,8 +10,8 @@ package middleware
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/jzechen/collector/pkg/manager/server/rate"
-	"github.com/jzechen/collector/pkg/manager/utils/errcode"
+	"github.com/jzechen/toresa/pkg/manager/server/rate"
+	"github.com/jzechen/toresa/pkg/manager/utils/errcode"
 	"k8s.io/klog/v2"
 	"net/http"
 	"time"

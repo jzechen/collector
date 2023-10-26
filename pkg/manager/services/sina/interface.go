@@ -9,7 +9,7 @@ package sina
 
 import (
 	"context"
-	"github.com/jzechen/collector/pkg/manager/dto"
+	"github.com/jzechen/toresa/pkg/manager/dto"
 )
 
 type Interface interface {

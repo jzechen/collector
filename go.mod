@@ -1,4 +1,4 @@
-module github.com/jzechen/collector
+module github.com/jzechen/toresa
 
 go 1.21
 

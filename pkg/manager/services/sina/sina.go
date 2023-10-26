@@ -10,7 +10,7 @@ package sina
 import (
 	"context"
 	"fmt"
-	"github.com/jzechen/collector/pkg/manager/dto"
+	"github.com/jzechen/toresa/pkg/manager/dto"
 )
 
 type Handler struct {
