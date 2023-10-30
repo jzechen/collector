@@ -8,12 +8,15 @@
 package config
 
 import (
+	"errors"
 	"github.com/jzechen/toresa/cmd/manager/cmd/options"
 	"github.com/jzechen/toresa/pkg/manager/config/scrape"
 	. "github.com/jzechen/toresa/pkg/manager/contants"
+	"github.com/jzechen/toresa/pkg/manager/utils"
 	"github.com/spf13/viper"
 	"k8s.io/klog/v2"
 	"os"
+	"path"
 	"time"
 )
 
@@ -22,6 +25,7 @@ type CollectorManager struct {
 	Server     ServerConfig `yaml:"server"`
 	Mongo      MongoConfig  `yaml:"mongo"`
 	Scraper    ScrapeConfig `yaml:"scraper"`
+	Drive      DriveConfig  `yaml:"drive"`
 }
 
 type ServerConfig struct {
@@ -41,6 +45,12 @@ type MongoConfig struct {
 type ScrapeConfig struct {
 	RuntimePath string                 `yaml:"runtimePath"`
 	Sina        scrape.SinaWeiboConfig `yaml:"sina"`
+}
+
+type DriveConfig struct {
+	Type string `yaml:"type"`
+	Path string `yaml:"path"`
+	Port int    `yaml:"port"`
 }
 
 func BuildConfig(opts *options.CollectorManagerOptions) (*CollectorManager, *viper.Viper, error) {
@@ -80,7 +90,7 @@ func BuildConfig(opts *options.CollectorManagerOptions) (*CollectorManager, *vip
 	return &_config, conf, nil
 }
 
-func SetDefaultConfig(conf *CollectorManager) {
+func (conf *CollectorManager) SetDefaultConfig() {
 	// server
 	if conf.Server.Addr == "" {
 		conf.Server.Addr = DefaultServerAddr
@@ -96,5 +106,23 @@ func SetDefaultConfig(conf *CollectorManager) {
 	}
 	if conf.Server.RequestTimeout == 0 {
 		conf.Server.RequestTimeout = time.Duration(60) * time.Second
+	}
+
+	// drive
+	if conf.Drive.Type == "" {
+		conf.Drive.Type = DefaultDriveType
+	}
+	if conf.Drive.Port == 0 {
+		conf.Drive.Port = DefaultDrivePort
+	}
+	if conf.Drive.Path == "" {
+		conf.Drive.Path = DefaultDrivePath
+	}
+	_, err := os.Stat(conf.Drive.Path)
+	if err != nil && !errors.Is(err, os.ErrNotExist) {
+		panic(err)
+	}
+	if errors.Is(err, os.ErrNotExist) {
+		conf.Drive.Path = path.Join(utils.ExecPath, conf.Drive.Path)
 	}
 }

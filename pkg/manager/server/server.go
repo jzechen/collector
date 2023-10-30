@@ -50,7 +50,7 @@ func NewCollectorManagerServer(ctx context.Context, cfg *config.CollectorManager
 	}
 
 	klog.V(4).Info("register the sina handler")
-	sinaHandler := sina.NewSinaHandler(ctx)
+	sinaHandler := sina.NewSinaHandler(cfg, mgo)
 
 	klog.V(4).Info("generate a web engine")
 	ginEngine := gin.NewGinEngine(sinaHandler)

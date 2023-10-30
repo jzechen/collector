@@ -13,4 +13,8 @@ const (
 
 	DefaultServerAddr = "0.0.0.0"
 	DefaultServerPort = 9302
+
+	DefaultDriveType = "chrome"
+	DefaultDrivePort = 9005
+	DefaultDrivePath = "/browser"
 )

@@ -15,4 +15,5 @@ import (
 type Interface interface {
 	// TODO: add collect sinaWeibo handler method here
 	Hello(ctx context.Context, req *dto.NullRsp) (*dto.NullRsp, error)
+	Login(ctx context.Context, req *dto.LoginReq) (*dto.NullRsp, error)
 }

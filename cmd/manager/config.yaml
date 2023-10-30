@@ -23,3 +23,7 @@ scraper:
     tweet:
       main: true
       comment: false
+drive:
+  type: chrome
+  port: 9005
+  path: "browser"

@@ -10,7 +10,10 @@ import (
 	"time"
 )
 
-var ExecPath = getExecutePath()
+var (
+	ExecPath = getExecutePath()
+	WorkPath = getWorkPath()
+)
 
 func ReParse(pattern string, content string) string {
 	str := regexp.MustCompile(pattern).FindAllStringSubmatch(content, -1)
@@ -69,4 +72,12 @@ func GetTargetUidList() []string {
 
 func getExecutePath() string {
 	return filepath.Dir(os.Args[0])
+}
+
+func getWorkPath() string {
+	dir, err := os.Getwd()
+	if err != nil {
+		panic(err)
+	}
+	return dir
 }

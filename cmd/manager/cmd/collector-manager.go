@@ -73,7 +73,7 @@ func CreateManagerConfig(managerOptions *options.CollectorManagerOptions) *confi
 	cfg, conf, err := config.BuildConfig(managerOptions)
 	cobra.CheckErr(err)
 
-	config.SetDefaultConfig(cfg)
+	cfg.SetDefaultConfig()
 	klog.Info("init config successfully")
 	cfg.OriginConf = conf
 
