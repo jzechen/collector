@@ -32,8 +32,7 @@ func Test_getCookieStr(t *testing.T) {
 			args: args{
 				dc: &config.DriveConfig{
 					Type: contants.DefaultDriveType,
-					Path: DrivePath, // input the path of your browse drive for the test
-					Port: contants.DefaultDrivePort,
+					Addr: contants.DefaultDriveAddr,
 				},
 				userName: "userName",
 				password: "password",

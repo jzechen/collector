@@ -9,14 +9,7 @@ mongo:
   database: "test"
   dialTimeout: "3s"
 scraper:
-  runtimePath: "/browser/chromedriver-win64.zip"
   sina:
-    userName:
-     - "example@163.com"
-     - "example@qq.com"
-    password:
-     - "12333444"
-     - "1742566624"
     info: true
     follow: false
     fans: false
@@ -24,6 +17,5 @@ scraper:
       main: true
       comment: false
 drive:
-  type: chrome
-  port: 9005
-  path: "browser"
+  type: chrome-remote
+  addr: "ws://172.21.48.1:9222/devtools/browser"

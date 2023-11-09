@@ -16,7 +16,7 @@ import (
 )
 
 func (g *Engine) CreateHandler() http.Handler {
-	sina := g.Group("/v1/collector/manager/sina")
+	sina := g.Group("/v1/collector/collector/sina")
 	sina.POST("/login", g.login)
 	// TODO: add router handle here
 

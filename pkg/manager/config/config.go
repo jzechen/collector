@@ -8,15 +8,12 @@
 package config
 
 import (
-	"errors"
-	"github.com/jzechen/toresa/cmd/manager/cmd/options"
+	"github.com/jzechen/toresa/cmd/collector/options"
 	"github.com/jzechen/toresa/pkg/manager/config/scrape"
 	. "github.com/jzechen/toresa/pkg/manager/contants"
-	"github.com/jzechen/toresa/pkg/manager/utils"
 	"github.com/spf13/viper"
 	"k8s.io/klog/v2"
 	"os"
-	"path"
 	"time"
 )
 
@@ -43,14 +40,12 @@ type MongoConfig struct {
 }
 
 type ScrapeConfig struct {
-	RuntimePath string                 `yaml:"runtimePath"`
-	Sina        scrape.SinaWeiboConfig `yaml:"sina"`
+	Sina scrape.SinaWeiboConfig `yaml:"sina"`
 }
 
 type DriveConfig struct {
 	Type string `yaml:"type"`
-	Path string `yaml:"path"`
-	Port int    `yaml:"port"`
+	Addr string `yaml:"addr"`
 }
 
 func BuildConfig(opts *options.CollectorManagerOptions) (*CollectorManager, *viper.Viper, error) {
@@ -112,17 +107,7 @@ func (conf *CollectorManager) SetDefaultConfig() {
 	if conf.Drive.Type == "" {
 		conf.Drive.Type = DefaultDriveType
 	}
-	if conf.Drive.Port == 0 {
-		conf.Drive.Port = DefaultDrivePort
-	}
-	if conf.Drive.Path == "" {
-		conf.Drive.Path = DefaultDrivePath
-	}
-	_, err := os.Stat(conf.Drive.Path)
-	if err != nil && !errors.Is(err, os.ErrNotExist) {
-		panic(err)
-	}
-	if errors.Is(err, os.ErrNotExist) {
-		conf.Drive.Path = path.Join(utils.ExecPath, conf.Drive.Path)
+	if conf.Drive.Addr == "" {
+		conf.Drive.Addr = DefaultDriveAddr
 	}
 }

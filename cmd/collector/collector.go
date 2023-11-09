@@ -1,16 +1,16 @@
 /**
  * @Time: 2023/10/20 15:44
  * @Author: jzechen
- * @File: collector-manager.go
+ * @File: collector-cmd.go
  * @Software: GoLand collector
  */
 
-package cmd
+package main
 
 import (
 	"context"
 	"fmt"
-	"github.com/jzechen/toresa/cmd/manager/cmd/options"
+	"github.com/jzechen/toresa/cmd/collector/options"
 	"github.com/jzechen/toresa/pkg/common/apiserver"
 	logFlag "github.com/jzechen/toresa/pkg/common/flag"
 	"github.com/jzechen/toresa/pkg/manager/config"
@@ -21,9 +21,9 @@ import (
 )
 
 const (
-	applicationName = "collector-manager"
+	applicationName = "collector"
 	helpTextShort   = "A server application used to manage the collect jobs in the collector project"
-	helpTextLong    = `The Collector-manager is a module that manages the collect job in the collector project.
+	helpTextLong    = `The collector is a module that manages the collect job in the collector project.
 
       Find more information at:
             https://github.com/jzechen/toresa`
@@ -81,13 +81,13 @@ func CreateManagerConfig(managerOptions *options.CollectorManagerOptions) *confi
 }
 
 func Run(ctx context.Context, cfg *config.CollectorManager) error {
-	klog.V(2).Info("manager server prepare to run")
+	klog.V(2).Info("collector server prepare to run")
 	s, err := server.NewCollectorManagerServer(ctx, cfg)
 	if err != nil {
 		return err
 	}
 
-	klog.V(2).Info("start the manager server")
+	klog.V(2).Info("start the collector server")
 	s.Run()
 
 	return nil
