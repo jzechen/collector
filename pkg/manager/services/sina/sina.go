@@ -16,7 +16,6 @@ import (
 	"github.com/jzechen/toresa/pkg/manager/dto"
 	"github.com/jzechen/toresa/pkg/manager/mdb"
 	"github.com/jzechen/toresa/pkg/manager/utils/browser"
-	"github.com/tebeka/selenium"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -24,8 +23,10 @@ import (
 )
 
 type Handler struct {
+	ctx     context.Context
 	conf    *config.CollectorManager
 	account *mongo.Collection
+	browser browser.Interface
 }
 
 func NewSinaHandler(cfg *config.CollectorManager, mongo mdb.Interface) *Handler {
@@ -34,9 +35,11 @@ func NewSinaHandler(cfg *config.CollectorManager, mongo mdb.Interface) *Handler 
 		klog.Fatal(err)
 	}
 	sinaHandler := &Handler{
+		ctx:     context.Background(),
 		conf:    cfg,
 		account: ac,
 	}
+	sinaHandler.browser = browser.NewChromeSession(sinaHandler.ctx, &cfg.Drive)
 
 	return sinaHandler
 }
@@ -48,7 +51,7 @@ func (hd *Handler) Hello(ctx context.Context, req *dto.NullRsp) (*dto.NullRsp, e
 }
 
 func (hd *Handler) Login(ctx context.Context, req *dto.LoginReq) (*dto.NullRsp, error) {
-	cookie, err := getCookieStr(ctx, &hd.conf.Drive, req.UserID, req.Password)
+	cookie, err := getCookieStr(hd.browser, req.UserID, req.Password)
 	if err != nil {
 		return nil, err
 	}
@@ -60,19 +63,8 @@ func (hd *Handler) Login(ctx context.Context, req *dto.LoginReq) (*dto.NullRsp, 
 	return &dto.NullRsp{}, nil
 }
 
-func getCookieStr(ctx context.Context, dc *config.DriveConfig, userName, password string) (string, error) {
-	ctx, cancel := browser.GetChromeAllocateFunc()(ctx, dc)
-	defer cancel()
-
-	// Connect to the WebDriver instance running locally.
-	//caps := selenium.Capabilities{"browserName": "chrome"}
-
-	// Disable image loading to speed up rendering
-	//imagCaps := map[string]interface{}{
-	//	"profile.managed_default_content_settings.images": 2,
-	//}
-
-	if err := chromedp.Run(ctx,
+func getCookieStr(bw browser.Interface, userName, password string) (string, error) {
+	if err := bw.Run(
 		// navigate to sina weibo login page
 		chromedp.Navigate("https://passport.weibo.cn/signin/login?entry=mweibo&r=https://weibo.cn/"),
 		// wait for footer element is visible (ie, page is loaded)
@@ -104,25 +96,6 @@ func getCookieStr(ctx context.Context, dc *config.DriveConfig, userName, passwor
 	//	cookieSlice = append(cookieSlice, c.Name+"="+c.Value)
 	//}
 	return "cookie", nil
-}
-
-func isDisplayed(by, elementName string) func(selenium.WebDriver) (bool, error) {
-	return func(wd selenium.WebDriver) (bool, error) {
-		el, err := wd.FindElement(by, elementName)
-		if err != nil {
-			return false, nil
-		}
-		enabled, err := el.IsDisplayed()
-		if err != nil {
-			return false, nil
-		}
-
-		if !enabled {
-			return false, nil
-		}
-
-		return true, nil
-	}
 }
 
 func (hd *Handler) saveToMgo(userName, password, cookie string) error {

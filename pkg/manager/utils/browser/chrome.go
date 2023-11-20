@@ -14,6 +14,28 @@ import (
 	. "github.com/jzechen/toresa/pkg/manager/contants"
 )
 
+type Chrome struct {
+	ctx    context.Context
+	cancel context.CancelFunc
+}
+
+func NewChromeSession(ctx context.Context, dc *config.DriveConfig) Interface {
+	ctx, cancel := GetChromeAllocateFunc()(ctx, dc)
+	c := &Chrome{
+		ctx:    ctx,
+		cancel: cancel,
+	}
+	return c
+}
+
+func (c *Chrome) Run(actions ...chromedp.Action) error {
+	return chromedp.Run(c.ctx, actions...)
+}
+
+func (c *Chrome) Close() {
+	c.cancel()
+}
+
 type AllocateFunc func(ctx context.Context, dc *config.DriveConfig) (context.Context, context.CancelFunc)
 
 func GetChromeAllocateFunc() AllocateFunc {
